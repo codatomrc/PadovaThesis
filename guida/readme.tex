@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[italian]{varioref}
+
+%%%versione
+\newcommand{\versione}{v.~1.2.2}
+
+\newcommand{\comando}[3][]{\texttt{\textbackslash #2}#1\texttt{\{}\textit{#3}\texttt{\}}}
+\newcommand{\Comando}[1]{\texttt{\textbackslash #1}}
+
+\newcommand{\Padova}{\texttt{Padova}}
+\newcommand{\PadovaThesis}{\texttt{PadovaThesis}}
+
+\title{PadovaThesis (\versione)}
+\author{Marco Codato}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Introduzione}
+Ho creato il pacchetto \PadovaThesis\ per facilitare la creazione di una presentazione beamer mirata alla presentazione di una tesi di laurea. Il pacchetto offre una procedura semplificata per creare il titolo della presentazione attraverso comandi \textit{ad hoc} quali \Comando{candidato}, \Comando{realtore}, \dots Inoltre sono messi a disposizione comandi utili per semplificare la creazione delle slide quali \Comando{acapo} o \Comando{evidenzia}.
+
+\section{Installazione}
+\subsection{Uso rapido}
+Il metodo più semplice per utilizzare il pacchetto è salvare il file \texttt{PadovaThesis.sty} nella stessa directory in cui è presente il file \texttt{.tex} a cui si sta lavorando ed caricarlo nel preambolo di quest'ultimo tramite il comando
+\begin{verbatim}
+	\input{PadovaThesis.sty}
+\end{verbatim}
+Si raccomanda questo metodo se non si ha dimestichezza con l'installazione di pacchetti. Lo svantaggio è che con questo metodo in ogni presentazione che utilizza il pacchetto è necessaria la presenza di una copia del file \texttt{PadovaThesis.sty} nella directory di lavoro.
+
+\subsection{Uso sistematico}
+Se si pensa di utilizzare il pacchetto più volte, si consiglia di installarlo manualmente nella propria distribuzione \LaTeX. La procedura può variare a seconda della distribuzione (TexLive, MiKTeX, \dots) e del sistema operativo (Ubuntu, Windows, macOS, \dots) utilizzati. Alcuni consigli sono riportati per esempio nella pagina \cite{web:wikibooks:install_packages}. Se ciò non dovesse funzionare si consiglia una semplice ricerca mirata alla propria configurazione macchina.
+
+\section{Utilizzo}
+
+\subsection{Frontespizio}
+Dopo aver caricato il pacchetto nel preambolo, nello stesso vanno anche inseriti i comandi che definiscono i campi per il titolo della tesi. Per la lista completa dei comandi si veda la sezione successiva.
+
+Una volta definiti i vari campi all'interno del documento si inserisce il titolo della presentazione in una diapositiva dedicata tramite il comando standard \texttt{\textbackslash maketitle}. Per maggiore chiarezza riporto un esempio qui sotto
+\begin{verbatim}
+\documentclass{beamer}
+\input{PadovaThesis.sty}
+\titolo{La fenomenologia dello spirito}
+\candidato{Pippo}
+\relatore{G.~W.~F.~Hegel}
+
+\begin{document}
+
+\begin{frame}
+\maketitle
+\end{frame}
+
+\end{document}
+\end{verbatim}
+che produce come risultato la figura \vref{fig:base}.
+\begin{figure}
+\centering
+\includegraphics[width=.75\textwidth,frame]{./esempi/base}
+\caption{Esempio basico di titolo con \PadovaThesis.\label{fig:base}}
+\end{figure}
+
+Il pacchetto accetta due possibili opzioni (\versione):
+\begin{itemize}
+	\item\texttt{\textbackslash usepackage[english]\{PadovaTheme\}} fornisce un supporto per la lingua inglese. Attivando questa opzione le etichette Candidato, Relatore, Correlatore saranno automaticamente tradotte in inglese (producendo rispettivamente Candidate, Supervisor e Assistant) senza dover utilizzare l'argomento opzionale dei relativi comandi (v.\ sotto). Inoltre l'eventuale data prodotta con il comando \Comando{data} verrà formattata secondo gli standard inglesi.
+	\item\texttt{\textbackslash usepackage[nologos]\{PadovaTheme\}} carica il tema \Padova\ con l'omologo argomento opzionale. La presentazione prodotta non presenterà loghi dell'Università di Padova. La disposizione dei titoli delle slides e delle note a piè pagina (\Comando{affiliazione}, vedi sotto) verrà adattata di conseguenza.
+	\item \texttt{\textbackslash usepackage[nowave]\{PadovaTheme\}} rimuove il motivo decorativo a piè pagina del tema \Padova, ovvero la caratteristica onda, che talvolta può togliere spazio utile al corpo testo.
+\end{itemize}
+Ovviamente si possono utilizzare più le opzioni allo stesso tempo, per esempio \texttt{\textbackslash usepackage[english, nologos]\{PadovaTheme\}}.
+
+
+\subsubsection{Comandi per il frontespizio}
+I comandi utilizzabili sono i seguenti (\versione):
+\begin{itemize}
+	\item [-]\comando{titolo}{testo} Per il titolo della tesi o della presentazione.
+	\item [-]\comando{titoletto}{testo} Per generare un titoletto al di sopra del titolo principale. Questo campo può essere usate per indicare che tipo di lavoro si tratta (\textit{es}: ``Tesi di Laurea'') oppure il nome dell'istituzione coinvolta (\textit{es}: ``Università degli Studi di Padova'') .
+	\item [-]\texttt{\textbackslash candidato[}\textit{etichetta candidato}\texttt{]\{}\textit{candidato}\texttt{\}} Per inserire il candidato o l'autore della presentazione. L'argomento opzionale \textit{etichetta candidato} è pensato per inserire un'ettichetta diversa da quella di defalut che è ``Candidato''.
+	\item [-]\texttt{\textbackslash relatore[}\textit{etichetta relatore}\texttt{]\{}\textit{relatore}\texttt{\}} Per inserire il relatore della tesi. L'argomento opzionale \textit{etichetta relatore} fornisce un'etichetta diversa da ``Relatore''.
+	\item [-]\texttt{\textbackslash correlatore[}\textit{etichetta correlatore}\texttt{]\{}\textit{correlatore}\texttt{\}} Per l'eventuale correlatore della tesi. L'argomento opzionale \textit{etichetta correlatore} fornisce un'etichetta diversa da ``Correlatore''.
+	\item [-]\comando{altricorrelatori}{altri correlatori} Per inserire eventuali altri correlatori. Se più di uno ciascun nome va separato dal comando ``\texttt{\textbackslash\textbackslash}''.
+	\item [-]\comando{data}{data} Per inserire eventuali la data della tesi o presentazione. Se non viene utilizzato questo comando verrà generata automaticamente la data di compilazione. Se non si vuole visualizzare alcuna data inserire il comando senza alcun argomento (\comando{data}{}).	
+	\item[-] \comando{affiliazione}{istituzione} Comando analogo a \Comando{footnote} per inserire a piè pagina l'affiliazione della persona a cui è riferito; è da preferire a \Comando{footnote} per inserire un qualsiasi tipo di note nel frontespizio, in quanto tiene conto automaticamente della disposizione grafica adottata da tema \Padova.
+	\item[-] \texttt{\textbackslash spazio}\{\textit{valore}\} Per modificare la spaziatura verticale tra titolo e relatore e tra relatore e correlatore. Se il comando non viene dato, lo spaziamento di default è di 3\,mm tra i campi citati. Possono essere utilizzate le unità di misura standard di \LaTeX\ \cite{web:overleaf:misure}.
+\end{itemize}
+
+\subsubsection{Modificare il font}
+Vista la poca flessibilità del tema \Padova\ in fatto di personalizzazione ad ora sono riuscito a modificare solamente la dimensione del font e solo in certi casi lo stile. Se si vuole personalizzare la dimensione e lo stile dei caratteri si ridefiniscano nel preambolo le definizioni dei font, utilizzando il comando
+\begin{verbatim}
+\renewcommand{font da personalizzare}{nuovo stile}
+\end{verbatim}
+Le dimensioni utilizzate di default sono le seguenti:
+\begin{verbatim}
+\newcommand{\titlesize}{\LARGE}             %titolo
+\newcommand{\institutesize}{\small}	        %titoletto
+\newcommand{\candidatesize}{\large}	        %candidato
+\newcommand{\supervisorsize}{\normalsize}   %relatore
+\newcommand{\assistantsize}{\footnotesize}  %correlatori
+\newcommand{\labelsize}{\tiny}              %etichette
+\newcommand{\datesize}{\normalsize}         %data
+\end{verbatim}
+Gli stili dei font di default sono i seguenti:
+\begin{verbatim}
+\newcommand{\titlestyle}{\bfseries\rmfamily}   %titolo
+\newcommand{\institutestyle}{\normalfont}      %titoletto
+\newcommand{\candidatestyle}{\normalfont}      %candidato
+\newcommand{\supervisorstyle}{\normalfont}     %relatore
+\newcommand{\assistantstyle}{\normalfont}      %correlatore/i
+\newcommand{\labelstyle}{\itshape}             %etichette
+\newcommand{\datestyle}{\normalfont}           %data
+\end{verbatim}
+Si noti che alcuni stili ``esotici'' (quali \textit{sans-serif} oppure \textit{small caps}) non sono utilizzabili perché confliggono con le impostazioni di default del pacchetto \Padova.
+
+\subsubsection{Esempi pratici}
+Riporto qui di seguito alcuni esempi di codice per ottenere effetti diversi da quelli di default.
+
+\paragraph{Cambiare un'etichetta.} Per esempio se voglio cambiare il campo ``Relatore'' con ``Relatrice'' dovrò scrivere
+\begin{verbatim}
+\relatore[Relatrice]{Prof.ssa Tizia Caia}
+\end{verbatim}
+Allo stesso modo posso cambiare ``Candidato'' in ``Laureanda'' utilizzando l'argomento opzionale del comando \Comando{candidato}.
+
+\paragraph{Cambiare la lingua delle etichette.}
+Per caricare le etichette in lingua inglese si usa
+\begin{verbatim}
+\usepackage[english]{PadovaThesis}
+\end{verbatim}
+nel preambolo. Ad ogni modo se si ha bisogno di un'etichetta diversa da quelle proposte, è sufficiente procedere come spiegato sopra.
+
+\paragraph{Modificare la dimensione del font.} Per esempio se voglio aumentare la dimensione del nome del candidato scriverò nel preambolo
+\begin{verbatim}
+\renewcommand{\candidatesize}{\huge}
+\end{verbatim}
+e analogamente per tutti gli altri campi.
+
+\paragraph{Modificare lo stile del font.}  Per esempio se voglio scrivere il nome del candidato in corsivo scriverò
+\begin{verbatim}
+\renewcommand{\candidatestyle}{\itshape}
+\end{verbatim}
+Analogamente si modificano gli altri campi ed etichette.
+
+\paragraph{Inserire l'affiliazione ad un ente esterno.} Se voglio per esempio specificare l'organizzazione di appartenenza dei correlatori che compaiono nel comando \texttt{\textbackslash altrirelatori} utilizzerò \Comando{affiliazione} come una normale nota a piè pagina:
+\begin{verbatim}
+\altricorrelatori{%
+ Dott.~Paperon De Paperoni\affiliazione{Università di Paperopoli}\\
+ Dott.~Caio Sempronio\affiliazione{Istituto di Studi Romani}}
+\end{verbatim}
+E analogamente per gli altri campi.
+
+\paragraph{Modificare lo stile delle note a piè pagina.} Per modificare lo stile delle note generate con \Comando{affiliazione} si modifica semplicemente lo stile delle note a piè pagina standard di \LaTeX. Per avere note con numerazione romana (``\texttt{roman}'') si utilizza
+\begin{verbatim}
+\renewcommand{\thefootnote}{\roman{footnote}}
+\end{verbatim}
+Per altri stili si veda\ \cite{web:overleaf:footnotes}.
+
+\subsection{Slides}
+A partire dalla versione 1.1.0 ho implementato alcuni comandi base per facilitare la creazione delle slides.
+\subsubsection{Comandi per le slides}
+I comandi sviluppati per le slides sono i seguenti
+\begin{itemize}
+	\item[-] \comando{evidenzia}{testo} Colora \textit{testo} con la tonalità di rosso utilizzata dal tema \Padova\ (``rosso pantano'', RGB=[155;0;20])
+	\item[-] \Comando{acapo} Termina la riga e genera un nuovo capoverso e crea una spaziatura verticale \Comando{medskip}.
+	\item[-] \comando{referenza}{testo} Genera una nota sul margine destro. Se lo spazio al termine della riga non è sufficiente, l'annotazione viene riportata alla riga successiva.
+\end{itemize}
+
+\section{Ultime modifiche}
+\begin{itemize}
+	\item 09/12/2020 Iniziato la versione inglese della guida, corretto alcuni errori di battitura.
+	\item 11/12/2020 Introdotto l'opzione in lingua inglese per le etichette nel frontespizio.
+	\item 12/12/2020 Introdotta l'opzione per rimuovere i loghi. Riscalamento di note a più pagina e titoli delle slide in funzione della presenza dei loghi o meno.
+\end{itemize}
+
+\section{Prospettive future}
+In pacchetto è ancora ad una versione estremamente primitiva. In futuro ho intenzione di continuare ad implementarlo, permettendo maggiore personalizzabilità e migliorando l'automazione dei comandi. Inoltre per ora il pacchetto contiene solamente pochi comandi oltre quelli relativi al titolo della presentazione.
+
+Per eventuali suggerimenti non esitate a contattarmi, all'indirizzo mail\\ \texttt{marco.codato.2@studenti.unipd.it}
+
+\begin{thebibliography}{9}
+\bibitem{web:padova} Tema beamer Padova.\\ \url{https://www.math.unipd.it/~burattin/other/tema-latex-beamer-padova/}
+\bibitem{web:overleaf:misure} Lenghts in LaTeX. \textit{Overleaf}.\\ \url{https://it.overleaf.com/learn/latex/Lengths_in_LaTeX}
+\bibitem{web:overleaf:footnotes} Footnotes. \textit{Overleaf}.\\ \url{https://it.overleaf.com/learn/latex/footnotes#Changing_the_numbering_style}
+
+\bibitem{web:arte} L.~Pantieri. ``L'arte di scrivere con \LaTeX'' \\ \url{http://www.lorenzopantieri.net/LaTeX_files/ArteLaTeX.pdf}
+\bibitem{web:overleaf:commands} Commands. \textit{Overleaf}.\\ \url{https://www.overleaf.com/learn/latex/Commands}
+
+\bibitem{web:wikibooks:install_packages} LaTeX/Installing Extra Packages. \textit{Wikibooks}.\\
+\url{https://en.wikibooks.org/wiki/LaTeX/Installing_Extra_Packages}
+\end{thebibliography}
+
+\end{document}

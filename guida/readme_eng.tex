@@ -1,0 +1,195 @@
+% !TeX spellcheck = en_GB
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{varioref}
+
+%%%versione
+\newcommand{\versione}{v.~1.2.2}
+
+\newcommand{\comando}[3][]{\texttt{\textbackslash #2}#1\texttt{\{}\textit{#3}\texttt{\}}}
+\newcommand{\Comando}[1]{\texttt{\textbackslash #1}}
+
+\newcommand{\Padova}{\texttt{Padova}}
+\newcommand{\PadovaThesis}{\texttt{PadovaThesis}}
+
+\title{PadovaThesis (\versione)}
+\author{Marco Codato}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+I created the package \PadovaThesis\ to make easier tu build up a beamer presentation, in particular for a thesis. The package offers a simplified procedure to create the title of the presentation through \textit{ad hoc} commands such as \Comando{candidato}, \Comando{realtore}, \dots (which stand respectively for ``candidate'' and ``supervisor''). Moreover, they are available some useful command to simplify the creations of slides, such as \Comando{acapo} o \Comando{evidenzia} (=``new line'', highlight).
+
+\section{Installation}
+
+\subsection{Rapid use}
+The easiest method to use the package is saving the file \texttt{PadovaThesis.sty} into the working directory where is located the \texttt{.tex} file and to load it into the preamble of the latter using the command
+\begin{verbatim}
+	\input{PadovaThesis.sty}
+\end{verbatim}
+I recommend this method if you are not expert installing in manually packages. The disadvantage is that with this method for each presentation that needs the package, there must be present a copy of the file \texttt{PadovaThesis.sty} into the working directory.
+
+\subsection{Systematic use}
+If you are going to use the package several times, I recommend to manually install it into your \LaTeX\ distribution. The procedure varies according to which distribution (TexLive, MiKTeX, \dots) and operative system (Ubuntu, Windows, macOS, \dots) are installed. Some advices are reported for example on the page \cite{web:wikibooks:install_packages}. If this should not work I recommend a basic research targeted to your machine setup.
+
+\section{Usage}
+
+\subsection{Frontispiece}
+After loading the package on the preamble, you need to insert commands to generate the various fields on the title slide of the thesis. For the full list of available commands see next section. 
+
+Once defined the various fields into the document, you insert the title of your presentation into a dedicated slide using the standard command \Comando{maketitle}. In order to be more clear, here below you find an example
+\begin{verbatim}
+\documentclass{beamer}
+\input{PadovaThesis.sty}
+\titolo{La fenomenologia dello spirito}
+\candidato{Pippo}
+\relatore{G.~W.~F.~Hegel}
+
+\begin{document}
+
+\begin{frame}
+\maketitle
+\end{frame}
+
+\end{document}
+\end{verbatim}
+That produces the result of figure \vref{fig:base}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\textwidth,frame]{./esempi/base}
+\caption{Basic example of title page with \PadovaThesis.\label{fig:base}}
+\end{figure}
+
+The package accepts two possible options (\versione):
+\begin{itemize}
+	\item\texttt{\textbackslash usepackage[english]\{PadovaTheme\}} provides a support for English language. Activating this options the label Candidato, Relatore, Correlatore will automatically be translated in English (producing respectively Candidate, Supervisor and Assistant) without using the optional argument of the relative commands (see below). Moreover, the eventual date produced with the command \Comando{data} will be formatted according to English standards.
+	\item\texttt{\textbackslash usepackage[nologos]\{PadovaTheme\}} loads the \Padova\ theme with the omologous optional argument. The presentation so produced, will not present any logos of Padova University. The displacement of frame titles and foot notes (\Comando{affiliazione}, see below) will be consequently adapted.
+	\item \texttt{\textbackslash usepackage[nowave]\{PadovaTheme\}} removes de decoration on the footer of the \Padova\ theme, i.e.\ the characteristic wave, which sometimes can limit the suitable space from the text of the slide.
+\end{itemize}
+You can of course use more option at the same time, for example \texttt{\textbackslash usepackage[english, nologos]\{PadovaTheme\}}.
+
+
+\subsubsection{Commands for the frontispiece}
+The available commands are the following (\versione):
+\begin{itemize}
+	\item [-]\comando{titolo}{text} () For the title of the thesis/presentation.
+	\item [-]\comando{titoletto}{text} To generate a subtitle below main one. This filed can be used to indicate the kind of work you are dealing with (\textit{es}: ``Master Thesis'') or the name of your institution (\textit{es}: ``Università degli Studi di Padova'') .
+	\item [-]\texttt{\textbackslash candidato[}\textit{candidate label}\texttt{]\{}\textit{candidate}\texttt{\}} To insert the name of the candidate or the author of the presentation. The optional argument \textit{candidate label} aims to enable you to insert a different label from the default one, which is ``Candidato''.
+	\item [-]\texttt{\textbackslash relatore[}\textit{supervisor label}\texttt{]\{}\textit{supervisor}\texttt{\}} To insert the name of your supervisor. The optional argument \textit{supervisor label} provides a different label with the respect to ``Relatore''.
+	\item [-]\texttt{\textbackslash correlatore[}\textit{assistant label}\texttt{]\{}\textit{assistant}\texttt{\}} For the eventual supervisor's assistant of your thesis. The optional argument \textit{assistant label} provides a different label with the respect to ``Correlatore''.
+	\item [-]\comando{altricorrelatori}{others supervisors} To insert other eventual assistants. If more than one, each name must be delimited by the command``\texttt{\textbackslash\textbackslash}''.
+	\item [-]\comando{data}{date} To insert eventually the data of your thesis/presentation. If the command is not called, by default it will insert the date of compilation. If you do not want to insert any date, you will need to insert the command and let it empty (\comando{data}{}).	
+	\item[-] \comando{affiliazione}{institution} Analogous of \Comando{footnote} to insert footnotes to indicate the affiliation of the person which is referred to; better than \Comando{footnote} to insert any kind of footnotes into the title page, since it automatically accounts the graphical layout used by the \Padova theme.
+	\item[-] \texttt{\textbackslash spazio}\{\textit{value}\} To modify the vertical spacing between title and supervisor and between supervisor and assistant. If the command is not called, the default spacing if 3\,mm. They can be used all standard \LaTeX units\ \cite{web:overleaf:misure}.
+\end{itemize}
+
+\subsubsection{Modify the font}
+Seen the limited flexibility of the theme \Padova\ concerning customization, till now I succeeded in modify font size and eventually font style. If you want to customize font size and style you should overwrite default fonts features in the preamble, using the command
+\begin{verbatim}
+\renewcommand{property to be changed}{new style}
+\end{verbatim}
+Default sizes are the following
+\begin{verbatim}
+\newcommand{\titlesize}{\LARGE}             %title
+\newcommand{\institutesize}{\small}	        %subtitle
+\newcommand{\candidatesize}{\large}	        %candidate
+\newcommand{\supervisorsize}{\normalsize}   %supervisor
+\newcommand{\assistantsize}{\footnotesize}  %assistant(s)
+\newcommand{\labelsize}{\tiny}              %labels
+\newcommand{\datesize}{\normalsize}         %date
+\end{verbatim}
+Default styles are the following:
+\begin{verbatim}
+\newcommand{\titlestyle}{\bfseries\rmfamily}   %title
+\newcommand{\institutestyle}{\normalfont}      %subtitle
+\newcommand{\candidatestyle}{\normalfont}      %candidate
+\newcommand{\supervisorstyle}{\normalfont}     %supervisor
+\newcommand{\assistantstyle}{\normalfont}      %assistant(s)
+\newcommand{\labelstyle}{\itshape}             %labels
+\newcommand{\datestyle}{\normalfont}           %date
+\end{verbatim}
+Note that some ``exotics'' styles (such as \textit{sans-serif} or \textit{small caps}) are not usable because they conflicts with default settings of the \Padova\ package.
+
+\subsubsection{Practical examples}
+Here below I display some examples of code to obtain different effect from default ones.
+
+\paragraph{Change a label.} For example if I want to change the field ``Relatore'' to ``Relatrice'' I should write
+\begin{verbatim}
+\relatore[Relatrice]{Prof.ssa Tizia Caia}
+\end{verbatim}
+In the same way I can change ``Candidato'' to ``Laureanda'' using the optional argument of the command \Comando{candidato}.
+
+\paragraph{Cambiare la lingua delle etichette.}
+To change the language of the labels into English you have to use
+\begin{verbatim}
+\usepackage[english]{PadovaThesis}
+\end{verbatim}
+in the preamble. Anyway if you need a different label to the proposed ones, you just need to do as explained above.
+
+\paragraph{Modify font size.} For example if I want to increase font size of the name of the candidate I should write in the preamble
+\begin{verbatim}
+\renewcommand{\candidatesize}{\huge}
+\end{verbatim}
+and analogously for all the other fields.
+
+\paragraph{Modify font style.}  For example if I want to write the name of the candidate in italics I will write
+\begin{verbatim}
+\renewcommand{\candidatestyle}{\itshape}
+\end{verbatim}
+Analogously you can modify other fields and labels.
+
+\paragraph{Insert an affiliation to an external organization.} For example, if I want to specify the organization of the assistants that appers into the command \texttt{\textbackslash altrirelatori} I will use \Comando{affiliazione} just like an usual foot note:
+\begin{verbatim}
+\altricorrelatori{%
+ Dott.~Paperon De Paperoni\affiliazione{Università di Paperopoli}\\
+ Dott.~Caio Sempronio\affiliazione{Istituto di Studi Romani}}
+\end{verbatim}
+And the same for the other fields.
+
+\paragraph{Modify the style of foot notes.} To modify the stylw of notes generated throug \Comando{affiliazione} one just modifies the default style of foot notes usd by \LaTeX. In order to have notes with roman numeration (``\texttt{roman}'') one uses
+\begin{verbatim}
+\renewcommand{\thefootnote}{\roman{footnote}}
+\end{verbatim}
+For other styles see\ \cite{web:overleaf:footnotes}.
+
+\subsection{Slides}
+Starting from version 1.1.0 I implementes some basics command to make slides creation easier.
+\subsubsection{Commands for the slides}
+The developed commands are the following
+\begin{itemize}
+	\item[-] \comando{evidenzia}{text} It colours \textit{text} with the red tonality used by the \Padova\ theme (``rosso pantano'', RGB=[155;0;20])
+	\item[-] \Comando{acapo} It ends the current line and generates a new paragraph and a vertical spacing equal to \Comando{medskip}.
+	\item[-] \comando{referenza}{text} It generates a right margin note. If hte space at the end of the line is not sufficient, the note is placed on the next line.
+\end{itemize}
+
+\section{Lasts changes}
+\begin{itemize}
+	\item 09/12/2020 Started the English version, corrected some typos.
+	\item 11/12/2020 Introduced the English option for the labels in the title page.
+	\item 12/12/2020 Added the option to remove logos. Foot notes and frame titles are automatically rescaled according to tre presence of logos or not.
+\end{itemize}
+
+\section{Future outlooks}
+The package is still on an extremely primitive version. On the future I am going to carry on improving it, allowing further options to customize it and improve the automation of the commands. Moreover at the moment the package contains very few commands apart from those regarding title page.
+
+For eventual advice do not hesitate to contact me ad the mail address\\ \texttt{marco.codato.2@studenti.unipd.it}
+
+\begin{thebibliography}{9}
+\bibitem{web:padova} Tema beamer Padova.\\ \url{https://www.math.unipd.it/~burattin/other/tema-latex-beamer-padova/}
+\bibitem{web:overleaf:misure} Lenghts in LaTeX. \textit{Overleaf}.\\ \url{https://it.overleaf.com/learn/latex/Lengths_in_LaTeX}
+\bibitem{web:overleaf:footnotes} Footnotes. \textit{Overleaf}.\\ \url{https://it.overleaf.com/learn/latex/footnotes#Changing_the_numbering_style}
+
+\bibitem{web:arte} L.~Pantieri. ``L'arte di scrivere con \LaTeX'' \\ \url{http://www.lorenzopantieri.net/LaTeX_files/ArteLaTeX.pdf}
+\bibitem{web:overleaf:commands} Commands. \textit{Overleaf}.\\ \url{https://www.overleaf.com/learn/latex/Commands}
+
+\bibitem{web:wikibooks:install_packages} LaTeX/Installing Extra Packages. \textit{Wikibooks}.\\
+ \url{https://en.wikibooks.org/wiki/LaTeX/Installing_Extra_Packages}
+\end{thebibliography}
+
+\end{document}

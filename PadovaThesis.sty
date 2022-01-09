@@ -1,0 +1,147 @@
+%%% LAST CHANGES
+%improved english support: when it is loaded, babel with italian is not loaded.
+%extended nologo option from Padova theme, when loades logos do no appear
+%footontes ("affiliation") and frames title scales automatically to not end into the logos, if present
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{PadovaThesis}[2020/12/11, v. 1.2.1, by Marco Codato] %!!!!!!
+\RequirePackage{ifthen}		%to control if statements
+\RequirePackage{calc}		%to manage math operation with lenghts
+%% NOTE: babel is eventually loaded below (they have options)
+%% NOTE: beamer themes are loaded below (they have options)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% do not load UniPd logo
+\newif\ifbeamerpadovanologos
+\beamerpadovanologostrue
+\DeclareOption{nologos}{%
+	\beamerpadovanologosfalse}
+
+%% default names into labels
+\def\candidateLabel{Candidato}
+\def\supervisorLabel{Relatore}
+\def\assistantLabel{Correlatore}
+%% set default labels for English version
+\DeclareOption{english}{%
+	\renewcommand{\candidateLabel}{Candidate}%
+	\renewcommand{\supervisorLabel}{Supervisor}%
+	\renewcommand{\assistantLabel}{Assistant}%
+	\def\english{0}}		%to set babel in italian or not
+
+\ProcessOptions\relax
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% load babel for italian support
+\ifx\english\undefined
+%\PassOptionsToPackage{italian}{babel}
+	\RequirePackage[italian]{babel}
+%\RequirePackage[italian]{babel}
+\fi
+
+%% Padova theme loading and settings
+\ifbeamerpadovanologos
+	\usetheme{Padova}
+\else
+	\usetheme[nologos]{Padova}
+\fi
+\useoutertheme{Padova}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%comands definitions, empty by default
+\renewcommand*\footnoterule{}	%to remove the vertical rule before footnote
+\def\moreassistant{}
+\def\supervisor{}
+\def\Nsupervisor{}
+\def\candidate{}
+\def\Ncandidate{}
+\def\assistant{}
+\def\Nassistant{}
+\def\moreassistant{}
+\def\vdata{\today}
+\def\titelet{}
+\def\vtitle{}
+\def\sepspace{\vspace*{3mm}}
+
+%% default font sizes definitions
+\newcommand{\titlesize}{\LARGE}             %title
+\newcommand{\institutesize}{\small}	        %subtitle
+\newcommand{\candidatesize}{\large}	        %candidate
+\newcommand{\supervisorsize}{\normalsize}   %supervisor
+\newcommand{\assistantsize}{\normalsize}  	%assistant(s)
+\newcommand{\labelsize}{\tiny}              %labels
+\newcommand{\datesize}{\normalsize}         %date
+
+%% default font styles definitions
+\newcommand{\titlestyle}{\bfseries\rmfamily}   %title
+\newcommand{\institutestyle}{\normalfont}      %subtitle
+\newcommand{\candidatestyle}{\normalfont}      %candidate
+\newcommand{\supervisorstyle}{\normalfont}     %supervisor
+\newcommand{\assistantstyle}{\normalfont}      %assistant(s)
+\newcommand{\labelstyle}{\itshape}             %labels
+\newcommand{\datestyle}{\normalfont}           %data
+
+%% behavior if some fields are empty
+\def\ifempty#1{\def\temp{#1}\ifx\temp\empty}	%true if #1 is empty
+\def\colons#1{\ifempty{#1}\else:\fi }			%if argument not empty then return ":"
+\def\giu#1{\ifempty{#1}\else\\\fi }				%if argument not empty ther return "\\"
+
+%% command to generate title fields (delivered by \maketitle in the main)
+\newcommand{\titolo}[1]{\def\vtitle{#1}}																%title
+\newcommand{\titoletto}[1]{\def \titelet {#1}}															%subtitle
+\newcommand{\candidato}[2][\candidateLabel]{\def \candidate {#2} \def \Ncandidate{{#1}\colons{#1}}}		%candidate
+\newcommand{\relatore}[2][\supervisorLabel]{\def \supervisor {#2} \def \Nsupervisor{{#1}\colons{#1}}}	%supervisor
+\newcommand{\correlatore}[2][\assistandLabel]{\def \assistant {#2} \def \Nassistant{{#1}\colons{#1}}}	%assistant(s)
+\newcommand{\altricorrelatori}[1]{\def\moreassistant{\giu{#1}#1}}										%more assistant(s)
+\newcommand{\data}[1]{\def \vdata{#1}}																	%date
+\newcommand{\spazio}[1]{\def\sepspace{\vspace*{#1}}}													%set vspace default unit
+
+%% affiliation
+%% i no logos just a footnote, else the width is reduced
+\def\larghezzaAffiliazione{\textwidth}						%%if no logos => footnote
+\newcommand{\affiliazione}[1]{\footnote{\tiny #1}}
+\ifbeamerpadovanologos										%%if logos => reduce width
+	%%set lenghts
+	\newlength{\differenzaAffiliazione}
+	\newlength{\bigLogoWidth}
+	\setlength{\bigLogoWidth}{5cm}							%%+1cm of margin
+	\setlength{\differenzaAffiliazione}{\textwidth-\bigLogoWidth}		
+	\renewcommand{\larghezzaAffiliazione}{\differenzaAffiliazione}
+	\renewcommand{\affiliazione}[1]{%
+		\footnote{\ %
+			\begin{minipage}[b]{\larghezzaAffiliazione}%
+				\tiny #1
+			\end{minipage}}}
+\fi
+
+%% deliver title commands into the actual title
+%%(by stretching default title layout)
+\title{\institutesize\institutestyle \titelet}
+\author{\sepspace{\labelsize\labelstyle \Nsupervisor}\hfill {\labelsize\labelstyle \Ncandidate}\\
+	{\supervisorsize\supervisorstyle \supervisor}\hfill {\candidatesize\candidatestyle \candidate}\\
+	\sepspace
+	{\labelsize\labelstyle \Nassistant}\hfill {\datesize\datestyle \vdata}\\
+	\assistantsize\assistantstyle \assistant
+	\moreassistant }
+\date{}
+\subtitle{\titlesize\titlestyle \rmfamily \vtitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% SLIDES %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% reduce trame title width not to overlap the logo, id present
+\ifbeamerpadovanologos
+	\newlength{\smallLogoWidth}
+	\setlength{\smallLogoWidth}{2.5cm}			%%+0.5cm of margin		
+	\setbeamertemplate{frametitle}[default][left,rightskip=\smallLogoWidth]
+\fi
+
+%% highlight text with default Padova color
+\newcommand{\evidenzia}[1]{\textcolor{rossoPantano}{#1}}
+
+%% large newline (=medskip)
+\newcommand{\acapo}{\\ \medskip}
+
+%% margin notes
+\newcommand{\referenza}[1]{\hfill{\tiny\itshape #1}}
+
+\endinput
