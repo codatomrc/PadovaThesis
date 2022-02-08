@@ -1,12 +1,13 @@
 %%% LAST CHANGES
+% moved default style font style to comfortaa family
 %improved english support: when it is loaded, babel with italian is not loaded.
 %extended nologo option from Padova theme, when loades logos do no appear
-%footontes ("affiliation") and frames title scales automatically to not end into the logos, if present
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{PadovaThesis}[2020/12/11, v. 1.2.1, by Marco Codato] %!!!!!!
+\ProvidesPackage{PadovaThesis}[2020/12/11, v. 1.2.2, by Marco Codato] %!!!!!!
 \RequirePackage{ifthen}		%to control if statements
 \RequirePackage{calc}		%to manage math operation with lenghts
+\RequirePackage[default]{comfortaa}
 %% NOTE: babel is eventually loaded below (they have options)
 %% NOTE: beamer themes are loaded below (they have options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
