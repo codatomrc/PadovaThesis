@@ -9,7 +9,7 @@
 \usepackage[italian]{varioref}
 
 %%%versione
-\newcommand{\versione}{v.~1.2.2}
+\newcommand{\versione}{v.~1.2.3}
 
 \newcommand{\comando}[3][]{\texttt{\textbackslash #2}#1\texttt{\{}\textit{#3}\texttt{\}}}
 \newcommand{\Comando}[1]{\texttt{\textbackslash #1}}
@@ -72,6 +72,7 @@ Il pacchetto accetta due possibili opzioni (\versione):
 	\item\texttt{\textbackslash usepackage[english]\{PadovaTheme\}} fornisce un supporto per la lingua inglese. Attivando questa opzione le etichette Candidato, Relatore, Correlatore saranno automaticamente tradotte in inglese (producendo rispettivamente Candidate, Supervisor e Assistant) senza dover utilizzare l'argomento opzionale dei relativi comandi (v.\ sotto). Inoltre l'eventuale data prodotta con il comando \Comando{data} verrà formattata secondo gli standard inglesi.
 	\item\texttt{\textbackslash usepackage[nologos]\{PadovaTheme\}} carica il tema \Padova\ con l'omologo argomento opzionale. La presentazione prodotta non presenterà loghi dell'Università di Padova. La disposizione dei titoli delle slides e delle note a piè pagina (\Comando{affiliazione}, vedi sotto) verrà adattata di conseguenza.
 	\item \texttt{\textbackslash usepackage[nowave]\{PadovaTheme\}} rimuove il motivo decorativo a piè pagina del tema \Padova, ovvero la caratteristica onda, che talvolta può togliere spazio utile al corpo testo.
+	\item \texttt{\textbackslash usepackage[comfortaa]\{PadovaTheme\}} permette di usare il font Comfortaa  anziché quello di default(necessita nel pacchetto \texttt{comfortaa} e dell'installazione della famiglia font Comfortaa \cite{web:comfortaa}).
 \end{itemize}
 Ovviamente si possono utilizzare più le opzioni allo stesso tempo, per esempio \texttt{\textbackslash usepackage[english, nologos]\{PadovaTheme\}}.
 
@@ -191,6 +192,8 @@ Per eventuali suggerimenti non esitate a contattarmi, all'indirizzo mail\\ \text
 
 \bibitem{web:wikibooks:install_packages} LaTeX/Installing Extra Packages. \textit{Wikibooks}.\\
 \url{https://en.wikibooks.org/wiki/LaTeX/Installing_Extra_Packages}
+\bibitem{web:comfortaa} Download Comfortaa. \textit{Google fonts}.\\
+\url{https://fonts.google.com/specimen/Comfortaa}
 \end{thebibliography}
 
 \end{document}

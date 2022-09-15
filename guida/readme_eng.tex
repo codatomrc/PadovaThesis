@@ -7,7 +7,7 @@
 \usepackage{varioref}
 
 %%%versione
-\newcommand{\versione}{v.~1.2.2}
+\newcommand{\versione}{v.~1.2.3}
 
 \newcommand{\comando}[3][]{\texttt{\textbackslash #2}#1\texttt{\{}\textit{#3}\texttt{\}}}
 \newcommand{\Comando}[1]{\texttt{\textbackslash #1}}
@@ -71,6 +71,7 @@ The package accepts two possible options (\versione):
 	\item\texttt{\textbackslash usepackage[english]\{PadovaTheme\}} provides a support for English language. Activating this options the label Candidato, Relatore, Correlatore will automatically be translated in English (producing respectively Candidate, Supervisor and Assistant) without using the optional argument of the relative commands (see below). Moreover, the eventual date produced with the command \Comando{data} will be formatted according to English standards.
 	\item\texttt{\textbackslash usepackage[nologos]\{PadovaTheme\}} loads the \Padova\ theme with the omologous optional argument. The presentation so produced, will not present any logos of Padova University. The displacement of frame titles and foot notes (\Comando{affiliazione}, see below) will be consequently adapted.
 	\item \texttt{\textbackslash usepackage[nowave]\{PadovaTheme\}} removes de decoration on the footer of the \Padova\ theme, i.e.\ the characteristic wave, which sometimes can limit the suitable space from the text of the slide.
+	\item \texttt{\textbackslash usepackage[comfortaa]\{PadovaTheme\}} allows to use the font style Comfortaa instead of the default one (requires the package \texttt{comfortaa} and the intallation of the font family Comfortaa \cite{web:comfortaa}).
 \end{itemize}
 You can of course use more option at the same time, for example \texttt{\textbackslash usepackage[english, nologos]\{PadovaTheme\}}.
 
@@ -82,8 +83,8 @@ The available commands are the following (\versione):
 	\item [-]\comando{titoletto}{text} To generate a subtitle below main one. This filed can be used to indicate the kind of work you are dealing with (\textit{es}: ``Master Thesis'') or the name of your institution (\textit{es}: ``Università degli Studi di Padova'') .
 	\item [-]\texttt{\textbackslash candidato[}\textit{candidate label}\texttt{]\{}\textit{candidate}\texttt{\}} To insert the name of the candidate or the author of the presentation. The optional argument \textit{candidate label} aims to enable you to insert a different label from the default one, which is ``Candidato''.
 	\item [-]\texttt{\textbackslash relatore[}\textit{supervisor label}\texttt{]\{}\textit{supervisor}\texttt{\}} To insert the name of your supervisor. The optional argument \textit{supervisor label} provides a different label with the respect to ``Relatore''.
-	\item [-]\texttt{\textbackslash correlatore[}\textit{assistant label}\texttt{]\{}\textit{assistant}\texttt{\}} For the eventual supervisor's assistant of your thesis. The optional argument \textit{assistant label} provides a different label with the respect to ``Correlatore''.
-	\item [-]\comando{altricorrelatori}{others supervisors} To insert other eventual assistants. If more than one, each name must be delimited by the command``\texttt{\textbackslash\textbackslash}''.
+	\item [-]\texttt{\textbackslash correlatore[}\textit{assistant label}\texttt{]\{}\textit{co-supervisor}\texttt{\}} For the eventual co-supervisor of your thesis. The optional argument \textit{assistant label} provides a different label with the respect to ``Correlatore''.
+	\item [-]\comando{altricorrelatori}{others co-supervisors} To insert other eventual co-supervisors. If more than one, each name must be delimited by the command``\texttt{\textbackslash\textbackslash}''.
 	\item [-]\comando{data}{date} To insert eventually the data of your thesis/presentation. If the command is not called, by default it will insert the date of compilation. If you do not want to insert any date, you will need to insert the command and let it empty (\comando{data}{}).	
 	\item[-] \comando{affiliazione}{institution} Analogous of \Comando{footnote} to insert footnotes to indicate the affiliation of the person which is referred to; better than \Comando{footnote} to insert any kind of footnotes into the title page, since it automatically accounts the graphical layout used by the \Padova theme.
 	\item[-] \texttt{\textbackslash spazio}\{\textit{value}\} To modify the vertical spacing between title and supervisor and between supervisor and assistant. If the command is not called, the default spacing if 3\,mm. They can be used all standard \LaTeX units\ \cite{web:overleaf:misure}.
@@ -190,6 +191,8 @@ For eventual advice do not hesitate to contact me ad the mail address\\ \texttt{
 
 \bibitem{web:wikibooks:install_packages} LaTeX/Installing Extra Packages. \textit{Wikibooks}.\\
  \url{https://en.wikibooks.org/wiki/LaTeX/Installing_Extra_Packages}
+ \bibitem{web:comfortaa} Download Comfortaa. \textit{Google fonts}.\\
+ \url{https://fonts.google.com/specimen/Comfortaa}
 \end{thebibliography}
 
 \end{document}

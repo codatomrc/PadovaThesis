@@ -1,13 +1,12 @@
 %%% LAST CHANGES
+% added the nowave option, corrected assistant -> co-supervisor as the english translation for correlatore, added comfortaa fontstyle support
 % moved default style font style to comfortaa family
 %improved english support: when it is loaded, babel with italian is not loaded.
-%extended nologo option from Padova theme, when loades logos do no appear
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{PadovaThesis}[2020/12/11, v. 1.2.2, by Marco Codato] %!!!!!!
+\ProvidesPackage{PadovaThesis}[2022/09/15, v. 1.2.3, by Marco Codato] %!!!!!!
 \RequirePackage{ifthen}		%to control if statements
 \RequirePackage{calc}		%to manage math operation with lenghts
-\RequirePackage[default]{comfortaa}
 %% NOTE: babel is eventually loaded below (they have options)
 %% NOTE: beamer themes are loaded below (they have options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,6 +17,19 @@
 \DeclareOption{nologos}{%
 	\beamerpadovanologosfalse}
 
+%% do not show the wave footer
+\newif\ifbeamerpadovanowave
+\beamerpadovanowavetrue
+\DeclareOption{nowave}{%
+	\beamerpadovanowavefalse}
+
+%% use confortaa font style
+\newif\ifcomfortaa
+\comfortaatrue
+\DeclareOption{comfortaa}{%
+	\comfortaafalse}
+
+
 %% default names into labels
 \def\candidateLabel{Candidato}
 \def\supervisorLabel{Relatore}
@@ -26,7 +38,7 @@
 \DeclareOption{english}{%
 	\renewcommand{\candidateLabel}{Candidate}%
 	\renewcommand{\supervisorLabel}{Supervisor}%
-	\renewcommand{\assistantLabel}{Assistant}%
+	\renewcommand{\assistantLabel}{Co-supervisor}%
 	\def\english{0}}		%to set babel in italian or not
 
 \ProcessOptions\relax
@@ -40,12 +52,28 @@
 \fi
 
 %% Padova theme loading and settings
+%nologo
 \ifbeamerpadovanologos
 	\usetheme{Padova}
 \else
 	\usetheme[nologos]{Padova}
 \fi
+
+%nowave
+\ifbeamerpadovanowave
+	\pgfdeclareimage[width=\paperwidth]{pageBackground}{bgWave}
+\else
+	\pgfdeclareimage[width=0mm]{pageBackground}{bgWave}
+\fi
 \useoutertheme{Padova}
+
+%conforta font stlye
+%nowave
+\ifcomfortaa
+\else
+	\RequirePackage[default]{comfortaa}
+\fi
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%
 
